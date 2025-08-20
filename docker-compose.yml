@@ -1,0 +1,72 @@
+services:
+  ui:
+    build: ./ui
+    container_name: ui
+  # Remove direct port mapping; Traefik will route to UI
+    networks:
+      - sharednet
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    networks:
+      - sharednet
+    volumes:
+      - ./ollama-pull-model.sh:/ollama-pull-model.sh
+    entrypoint: ["/bin/bash", "-c", "ollama serve & sleep 2 && /ollama-pull-model.sh && wait"]
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+    ports:
+      - "80:80"
+      - "8080:8080" # Traefik dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml
+    networks:
+      - sharednet
+  api-server:
+    build: ./mcp-server
+    container_name: api-server
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`api.localhost`)"
+      - "traefik.http.services.api.loadbalancer.server.port=4000"
+    networks:
+      - sharednet
+  mcp-server:
+    build: ./mcp-server
+    container_name: mcp-server
+    environment:
+      - API_KEY=supersecretkey123
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mcp.rule=Host(`mcp.localhost`)"
+      - "traefik.http.services.mcp.loadbalancer.server.port=4000"
+    depends_on:
+      - api-server
+    ports:
+      - "4000:4000"
+    networks:
+      - sharednet
+  rust-api:
+    build: .
+    container_name: rust-api
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rust.rule=Host(`rust.localhost`)"
+      - "traefik.http.services.rust.loadbalancer.server.port=8000"
+    ports:
+      - "8000:8000"
+    networks:
+      - sharednet
+networks:
+  sharednet:
+    driver: bridge

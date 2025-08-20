@@ -1,0 +1,8 @@
+/home/kyle/projects/my-api/target/release/deps/lazy_static-24e6a7dcc86d716c.d: /home/kyle/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/lazy_static-1.5.0/src/lib.rs /home/kyle/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/lazy_static-1.5.0/src/inline_lazy.rs
+
+/home/kyle/projects/my-api/target/release/deps/liblazy_static-24e6a7dcc86d716c.rlib: /home/kyle/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/lazy_static-1.5.0/src/lib.rs /home/kyle/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/lazy_static-1.5.0/src/inline_lazy.rs
+
+/home/kyle/projects/my-api/target/release/deps/liblazy_static-24e6a7dcc86d716c.rmeta: /home/kyle/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/lazy_static-1.5.0/src/lib.rs /home/kyle/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/lazy_static-1.5.0/src/inline_lazy.rs
+
+/home/kyle/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/lazy_static-1.5.0/src/lib.rs:
+/home/kyle/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/lazy_static-1.5.0/src/inline_lazy.rs:

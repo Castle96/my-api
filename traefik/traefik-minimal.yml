@@ -1,0 +1,25 @@
+http:
+  routers:
+    ollama:
+      rule: "PathPrefix(`/ollama`)"
+      service: ollama
+      entryPoints:
+        - web
+  services:
+    ollama:
+      loadBalancer:
+        servers:
+          - url: "http://ollama:11434"
+api:
+  dashboard: true
+  insecure: true
+
+entryPoints:
+  web:
+    address: ":80"
+  traefik:
+    address: ":8080"
+
+providers:
+  docker:
+    exposedByDefault: false
